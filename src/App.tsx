@@ -7,9 +7,9 @@ import Electronic from "./pages/Electronic.tsx";
 import Footer from "./components/Footer.tsx";
 import "./modern-normalize.css";
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-const router = createBrowserRouter([
+/* const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
@@ -32,15 +32,21 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+]); */
 
 function App() {
   return (
-    <>
+    <Router>
       <Header />
-      <RouterProvider router={router} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/men" element={<Men />} />
+        <Route path="/women" element={<Women />} />
+        <Route path="/jewelry" element={<Jewelry />} />
+        <Route path="/electronic" element={<Electronic />} />
+      </Routes>
       <Footer />
-    </>
+    </Router>
   );
 }
 
