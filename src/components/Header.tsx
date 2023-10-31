@@ -1,11 +1,11 @@
 const Header = () => {
   return (
-    <header className="flex border-b-2 border-black px-2 min-w-max m-auto container">
-      <div className="">
-        <img src="/public/images/dk1.jpg" className="" />
+    <header className="flex border-b-2 border-black px-2 bg-banner-clr min-w-max m-auto container">
+      <div className="self-center ">
+        <img src="/public/images/dk1.jpg" className="w-14 h-12" />
       </div>
       <nav className="flex w-full items-center p-2 justify-center">
-        <ul className="flex gap-5">
+        <ul className="flex gap-10">
           <li><a href="">Men</a></li>
           <li><a href="">Women</a></li>
           <li><a href="">Jewelry</a></li>
