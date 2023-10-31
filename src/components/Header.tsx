@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="flex border-b-2 border-black px-2 bg-banner-clr min-w-max m-auto container">
+    <header className="flex border-b-2 border-black px-2 xl:pr-0 xl:pl-14  bg-banner-clr h-24 min-w-max m-auto container">
       <div className="self-center ">
-        <img src="/public/images/dk1.jpg" className="w-14 h-12" />
+        <img src="/public/images/dk1.jpg" className="w-20 h-18" />
       </div>
-      <nav className="flex w-full items-center p-2 justify-center">
+      <nav className="flex w-full items-center px-14 justify-center xl:justify-between">
         <ul className="flex gap-10">
           <li>
             <Link to={"/"}>Home</Link>
@@ -25,7 +25,7 @@ const Header = () => {
           </li>
         </ul>
 
-        <ul className="gap-5 max-w-full h-auto hidden">
+        <ul className="gap-10 max-w-full h-auto hidden xl:flex items-center">
           {/* <li>Login</li> */}
           <li>
             <a href="">Help</a>
@@ -34,7 +34,23 @@ const Header = () => {
             <a href="">Contact us</a>
           </li>
           <li>
-            <a href="">Cart image</a>
+            <a href="">
+              <svg
+                width="30px"
+                height="30px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
+                  stroke="#000000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
           </li>
         </ul>
       </nav>
@@ -44,7 +60,7 @@ const Header = () => {
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         stroke="currentColor"
-        className="w-10 h-10 flex self-center m-2"
+        className="w-10 h-10 flex self-center m-2 xl:hidden"
       >
         <path
           strokeLinecap="round"
