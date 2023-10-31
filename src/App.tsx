@@ -3,10 +3,9 @@ import Banner from "./components/Banner.tsx";
 import Main from "./components/Main.tsx";
 import Footer from "./components/Footer.tsx";
 import "./modern-normalize.css";
-import './App.css';
+import "./App.css";
 
 function App() {
-
   return (
     <>
       <Header />
@@ -14,7 +13,7 @@ function App() {
       <Main />
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

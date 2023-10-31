@@ -6,17 +6,31 @@ const Header = () => {
       </div>
       <nav className="flex w-full items-center p-2 justify-center">
         <ul className="flex gap-10">
-          <li><a href="">Men</a></li>
-          <li><a href="">Women</a></li>
-          <li><a href="">Jewelry</a></li>
-          <li><a href="">Electronics</a></li>
+          <li>
+            <a href="">Men</a>
+          </li>
+          <li>
+            <a href="">Women</a>
+          </li>
+          <li>
+            <a href="">Jewelry</a>
+          </li>
+          <li>
+            <a href="">Electronic</a>
+          </li>
         </ul>
 
         <ul className="gap-5 max-w-full h-auto hidden">
           {/* <li>Login</li> */}
-          <li><a href="">Help</a></li>
-          <li><a href="">Contact us</a></li>
-          <li><a href="">Cart image</a></li>
+          <li>
+            <a href="">Help</a>
+          </li>
+          <li>
+            <a href="">Contact us</a>
+          </li>
+          <li>
+            <a href="">Cart image</a>
+          </li>
         </ul>
       </nav>
       <svg
