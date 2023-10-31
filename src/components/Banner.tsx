@@ -4,7 +4,7 @@ const Banner = () => {
       <div className="bg-cover">
         <img
           src="./images/banner/banner.jpg"
-          className="h-64 w-full lg:h-80 xl:h-96 object-cover"
+          className="h-64 w-full lg:h-80 xl:h-96 object-cover object-center"
         />
       </div>
     </section>
