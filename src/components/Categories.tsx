@@ -1,25 +1,63 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+type AllProps = {
+  activeCategory: string;
+  setContentToLoad: React.Dispatch<React.SetStateAction<string>>;
+};
 
-const Main = () => {
+const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
   return (
     <main className="m-auto container p-5">
       <div className="flex justify-center p-5">
         <nav>
           <ul className="flex gap-8 md:gap-14 lg:gap-20 xl:gap-28">
             <li>
-              <a href="">All</a>
+              <span
+                onClick={() => setContentToLoad("All")}
+                className={`cursor-pointer relative ${
+                  activeCategory === "All" ? "activeHighlight" : ""
+                }`}
+              >
+                All
+              </span>
             </li>
             <li>
-              <a href="">Mens</a>
+              <span
+                onClick={() => setContentToLoad("Mens")}
+                className={`cursor-pointer relative ${
+                  activeCategory === "Mens" ? "activeHighlight" : ""
+                }`}
+              >
+                Mens
+              </span>
             </li>
             <li>
-              <a href="">Women</a>
+              <span
+                onClick={() => setContentToLoad("Women")}
+                className={`cursor-pointer relative ${
+                  activeCategory === "Women" ? "activeHighlight" : ""
+                }`}
+              >
+                Women
+              </span>
             </li>
             <li>
-              <a href="">Jewelries</a>
+              <span
+                onClick={() => setContentToLoad("Jewelries")}
+                className={`cursor-pointer relative ${
+                  activeCategory === "Jewelries" ? "activeHighlight" : ""
+                }`}
+              >
+                Jewelries
+              </span>
             </li>
             <li>
-              <a href="">Electronics</a>
+              <span
+                onClick={() => setContentToLoad("Electronics")}
+                className={`cursor-pointer relative ${
+                  activeCategory === "Electronics" ? "activeHighlight" : ""
+                }`}
+              >
+                Electronics
+              </span>
             </li>
           </ul>
         </nav>

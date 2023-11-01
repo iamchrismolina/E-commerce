@@ -1,9 +1,9 @@
 type ProductsProps = {
-  productsAll: string[];
+  products: string[];
 };
 
-const Products = ({ productsAll }: ProductsProps) => {
-  return productsAll.map((product) => (
+const Products = ({ products }: ProductsProps) => {
+  return products.map((product) => (
     <div
       key={product.id}
       className="p-2 border-2 max-w-xs h-96 rounded overflow-hidden shadow-lg flex flex-col justify-center items-center "
