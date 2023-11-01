@@ -3,7 +3,7 @@ const Men = () => {
     <main className="p-4 flex justify-center">
       <article className="flex justify-center items-center flex-col w-9/12 gap-6 bg-gray-200 rounded py-5">
         <div className="w-6/12">
-          <div>
+          <div className="border-2 border-black">
             <img src="./images/pagebanner/men.jpg" />
           </div>
           <header>
@@ -20,7 +20,7 @@ const Men = () => {
             </p>
           </header>
         </div>
-        <section className=" flex flex-col gap-6">
+        <section className=" flex flex-col gap-6 items-center">
           <h3 className="text-2xl text-center">1. Understand the Basics</h3>
           <p className="max-w-prose">
             Before diving into specific style tips, it's crucial to understand
@@ -41,6 +41,9 @@ const Men = () => {
             might cost more initially, but they last longer and often look
             better. You'll thank yourself for investing in timeless pieces.
           </p>
+          <div className="w-6/12 border-2 border-black">
+            <img src="./images/pagebanner/men1.jpg" />
+          </div>
           <h3 className="text-2xl text-center">4. Experiment with Colors</h3>
           <p className="max-w-prose">
             Don't be afraid to experiment with colors, but do so mindfully.
@@ -72,10 +75,10 @@ const Men = () => {
             your unique style!
           </p>
         </section>
-        <div>
+        <div className="w-6/12 h-40 md:h-60 lg:h-72 xl:h-96">
           <iframe
-            width="560"
-            height="315"
+            width="100%"
+            height="100%"
             src="https://www.youtube.com/embed/-nTfrtzsup8?si=GRy-lDX7P71PXasV"
             title="YouTube video player"
             frameBorder="0"

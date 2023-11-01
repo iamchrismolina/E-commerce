@@ -3,7 +3,7 @@ const Women = () => {
     <main className="p-4 flex justify-center">
       <article className="flex justify-center items-center flex-col w-9/12 gap-6 bg-pink-200 rounded py-5">
         <div className="w-6/12">
-          <div>
+          <div className="border-2 border-black">
             <img src="./images/pagebanner/women.jpg" />
           </div>
           <header>
@@ -20,7 +20,7 @@ const Women = () => {
             </p>
           </header>
         </div>
-        <section className=" flex flex-col gap-6">
+        <section className=" flex flex-col gap-6 items-center">
           <h3 className="text-2xl text-center">1. The Little Black Dress</h3>
           <p className="max-w-prose">
             No list of wardrobe essentials for women would be complete without
@@ -50,6 +50,9 @@ const Women = () => {
             attention to the length and hem to ensure they're the right fit for
             your shoes.
           </p>
+          <div className="w-6/12 border-2 border-black">
+            <img src="./images/pagebanner/women1.jpg" />
+          </div>
           <h3 className="text-2xl text-center">3. Crisp White Blouse</h3>
           <p className="max-w-prose">
             A crisp white blouse is a timeless and versatile piece that every
@@ -83,10 +86,10 @@ const Women = () => {
             choices for looking chic and put-together every day.
           </p>
         </section>
-        <div>
+        <div className="w-6/12 h-40 md:h-60 lg:h-72 xl:h-96">
           <iframe
-            width="560"
-            height="315"
+            width="100%"
+            height="100%"
             src="https://www.youtube.com/embed/klKVm1FALhs?si=g_745wc_kiaO1llH"
             title="YouTube video player"
             frameBorder="0"
