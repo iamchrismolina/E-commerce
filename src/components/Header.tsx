@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header className="bg-banner-clr border-b-2 border-black px-2">
-      <div className="flex   xl:pr-0 xl:pl-14 h-24 min-w-max m-auto container">
+      <div className="flex xl:pr-0 xl:pl-14 h-24 min-w-max m-auto container">
         <div className="self-center ">
           <img src="/public/images/dk1.jpg" className="w-20 h-18" />
+          <h1 className="hidden">DK Store</h1>
         </div>
         <nav className="flex w-full items-center px-14 justify-center xl:justify-between">
           <ul className="flex gap-10">

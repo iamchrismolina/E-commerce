@@ -9,31 +9,6 @@ import "./modern-normalize.css";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-/* const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    children: [
-      {
-        path: "/men",
-        element: <Men />,
-      },
-      {
-        path: "/women",
-        element: <Women />,
-      },
-      {
-        path: "/jewelry",
-        element: <Jewelry />,
-      },
-      {
-        path: "/electronic",
-        element: <Electronic />,
-      },
-    ],
-  },
-]); */
-
 function App() {
   return (
     <Router>

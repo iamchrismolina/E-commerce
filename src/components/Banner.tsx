@@ -27,9 +27,7 @@ const Banner = ({ bannerPage }: BannerProps) => {
       <div className="bg-cover">
         <img
           src={`./images/banner/${banner}`}
-          className={`h-64 w-full lg:h-80 xl:h-96 object-cover object-center ${
-            banner === "women.jpg" ? "object-top" : ""
-          }`}
+          className={`h-64 w-full lg:h-80 xl:h-96 object-cover object-center`}
         />
       </div>
     </section>
