@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Banner from "../components/Banner.tsx";
 import Categories from "../components/Categories.tsx";
 import All from "../components/All.tsx";
@@ -30,7 +30,7 @@ const Home = () => {
 
   return (
     <main className="m-auto container">
-      <Banner />
+      <Banner bannerPage={contentToLoad} />
       <Categories
         activeCategory={contentToLoad}
         setContentToLoad={setContentToLoad}
