@@ -30,10 +30,10 @@ const Header = () => {
           <ul className="gap-10 max-w-full h-auto hidden xl:flex items-center">
             {/* <li>Login</li> */}
             <li>
-              <a href="">Help</a>
+              <Link to={"/help"}>Help</Link>
             </li>
             <li>
-              <a href="">Contact us</a>
+              <Link to={"/contact"}>Contact us</Link>
             </li>
             <li>
               <a href="">

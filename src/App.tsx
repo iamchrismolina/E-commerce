@@ -4,6 +4,7 @@ import Men from "./pages/Men.tsx";
 import Women from "./pages/Women.tsx";
 import Jewelry from "./pages/Jewelry.tsx";
 import Electronic from "./pages/Electronic.tsx";
+import Contact from "./pages/Contact.tsx";
 import Footer from "./components/Footer.tsx";
 import "./modern-normalize.css";
 import "./App.css";
@@ -19,6 +20,7 @@ function App() {
         <Route path="/women" element={<Women />} />
         <Route path="/jewelry" element={<Jewelry />} />
         <Route path="/electronic" element={<Electronic />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </Router>
