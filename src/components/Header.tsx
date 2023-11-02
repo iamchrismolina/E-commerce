@@ -8,7 +8,7 @@ const Header = () => {
           <img src="/public/images/dk1.jpg" className="w-20 h-18" />
           <h1 className="hidden">DK Store</h1>
         </div>
-        <nav className="flex w-full items-center px-14 justify-center xl:justify-between">
+        <nav className="flex w-full items-center pl-14 xl:pr-14 justify-center xl:justify-between">
           <ul className="flex gap-10">
             <li>
               <Link to={"/"}>Home</Link>
@@ -28,7 +28,6 @@ const Header = () => {
           </ul>
 
           <ul className="gap-10 max-w-full h-auto hidden xl:flex items-center">
-            {/* <li>Login</li> */}
             <li>
               <Link to={"/help"}>Help</Link>
             </li>

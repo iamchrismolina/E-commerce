@@ -1,12 +1,16 @@
+import { useSearch } from "../context/SearchContext";
+
 type AllProps = {
   activeCategory: string;
   setContentToLoad: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
+  const { setSearch } = useSearch();
+
   return (
     <main className="m-auto container p-5">
-      <div className="flex justify-center p-5">
+      <div className="flex justify-center items-center flex-col p-5 gap-5">
         <nav>
           <ul className="flex gap-8 md:gap-14 lg:gap-20 xl:gap-28">
             <li>
@@ -61,6 +65,15 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
             </li>
           </ul>
         </nav>
+        <div>
+          <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            className="text-center border-black border-2 rounded"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
     </main>
   );
