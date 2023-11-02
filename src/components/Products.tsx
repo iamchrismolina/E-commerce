@@ -1,3 +1,5 @@
+import { usePurchase } from "../context/PurchaseContext";
+
 type ProductProps = {
   id: number;
   title: string;
@@ -16,6 +18,8 @@ type ProductsProps = {
 };
 
 const Products = ({ products }: ProductsProps) => {
+  const { setPurchase } = usePurchase();
+
   return products.map((product) => (
     <div
       key={product.id}
@@ -45,9 +49,9 @@ const Products = ({ products }: ProductsProps) => {
         <span>Count: {product.rating.count}</span>
       </div>
       <span className="cursor-pointer p-2">
-        <a
-          className="rounded-lg  relative w-36 h-8 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
-          href="{{ route('process.create') }}"
+        <div
+          className="rounded-lg  relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
+          onClick={() => setPurchase((prev) => prev + 1)}
         >
           <span className="text-white font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300">
             Add Item
@@ -69,7 +73,7 @@ const Products = ({ products }: ProductsProps) => {
               <line x1="5" x2="19" y1="12" y2="12"></line>
             </svg>
           </span>
-        </a>
+        </div>
       </span>
     </div>
   ));
