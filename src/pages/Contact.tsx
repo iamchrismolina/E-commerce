@@ -15,7 +15,7 @@ const ContactSection = () => {
         <div className="contact-info">
           <div className="contact-item">
             <i className="fa fa-envelope"></i>
-            <p>Email: chris@dkstore.com</p>
+            <p>Email: chriscontact@dkstore.com</p>
           </div>
           <div className="contact-item">
             <i className="fa fa-phone"></i>
