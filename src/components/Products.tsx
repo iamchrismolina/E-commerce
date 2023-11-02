@@ -1,4 +1,5 @@
-import { usePurchase } from "../context/PurchaseContext";
+import { usePurchase } from "../context/PurchaseContext.tsx";
+import { useCart } from "../context/CartContext.tsx";
 
 type ProductProps = {
   id: number;
@@ -19,6 +20,7 @@ type ProductsProps = {
 
 const Products = ({ products }: ProductsProps) => {
   const { setPurchase } = usePurchase();
+  const { addToCart } = useCart();
 
   return products.map((product) => (
     <div
@@ -50,8 +52,12 @@ const Products = ({ products }: ProductsProps) => {
       </div>
       <span className="cursor-pointer p-2">
         <div
-          className="rounded-lg  relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
-          onClick={() => setPurchase((prev) => prev + 1)}
+          className="rounded-lg relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
+          onClick={() => {
+            product.rating.count -= 1;
+            addToCart(product);
+            setPurchase((prev) => prev + 1);
+          }}
         >
           <span className="text-white font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300">
             Add Item
