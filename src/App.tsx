@@ -19,6 +19,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { SearchProvider } from "./context/SearchContext.tsx";
 import { PurchaseProvider } from "./context/PurchaseContext.tsx";
 import { CartProvider } from "./context/CartContext.tsx";
+import { ProductProvider } from "./context/ProductContext.tsx";
 
 function App() {
   return (
@@ -26,18 +27,20 @@ function App() {
       <SearchProvider>
         <PurchaseProvider>
           <CartProvider>
-            <Header />
-            <Cart />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/men" element={<Men />} />
-              <Route path="/women" element={<Women />} />
-              <Route path="/jewelry" element={<Jewelry />} />
-              <Route path="/electronic" element={<Electronic />} />
-              <Route path="/help" element={<Help />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-            <Footer />
+            <ProductProvider>
+              <Header />
+              <Cart />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/men" element={<Men />} />
+                <Route path="/women" element={<Women />} />
+                <Route path="/jewelry" element={<Jewelry />} />
+                <Route path="/electronic" element={<Electronic />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+              <Footer />
+            </ProductProvider>
           </CartProvider>
         </PurchaseProvider>
       </SearchProvider>

@@ -34,6 +34,7 @@ const Jewelries = () => {
       rate: number;
       count: number;
     };
+    fill: boolean;
   };
 
   const searchData: ProductProps[] | undefined = productsJewelries.filter(
