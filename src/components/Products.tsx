@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { usePurchase } from "../context/PurchaseContext.tsx";
+import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import { useCart } from "../context/CartContext.tsx";
+import { useTotalAmount } from "../context/TotalAmountContext.tsx";
 
 type ProductProps = {
   id: number;
@@ -14,6 +15,7 @@ type ProductProps = {
     count: number;
   };
   fill: boolean;
+  quantity: number;
 };
 
 type ProductsProps = {
@@ -21,8 +23,9 @@ type ProductsProps = {
 };
 
 const Products = ({ products }: ProductsProps) => {
-  const { setPurchase } = usePurchase();
-  const { addToCart } = useCart();
+  const { setPurchaseCount } = usePurchaseCount();
+  const { cart, addToCart } = useCart();
+  const { addOnTotalAmount } = useTotalAmount();
   const [render, setRender] = useState(false);
 
   const toggleRating = (product: ProductProps) => {
@@ -34,7 +37,15 @@ const Products = ({ products }: ProductsProps) => {
   };
 
   const toggleCount = (product: ProductProps) => {
-    product.rating.count -= 1;
+    if (product.rating.count == 0) {
+      alert("Max item count exceeded!");
+      return false;
+    } else if (cart.includes(product)) {
+      return false;
+    } else {
+      product.rating.count -= 1;
+      return true;
+    }
   };
 
   return products.map((product) => (
@@ -66,11 +77,11 @@ const Products = ({ products }: ProductsProps) => {
           Rating: {product.rating.rate}{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill={product.fill ? "black" : "none"}
+            fill={product.fill ? "gold" : "none"}
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6 cursor-pointer border-2 border-black"
+            className="w-6 h-6 cursor-pointer"
             onClick={() => {
               toggleRating(product);
             }}
@@ -86,11 +97,14 @@ const Products = ({ products }: ProductsProps) => {
       </div>
       <span className="cursor-pointer p-2">
         <div
-          className="border-4 border-red-500 rounded-lg relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
+          className="rounded-lg relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
           onClick={() => {
-            toggleCount(product);
+            const res = toggleCount(product);
             addToCart(product);
-            setPurchase((prev) => prev + 1);
+            if (res == true) {
+              setPurchaseCount((prev: number) => prev + 1);
+              addOnTotalAmount(product.price);
+            }
           }}
         >
           <span className="text-white font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300">

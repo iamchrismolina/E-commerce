@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { usePurchase } from "../context/PurchaseContext.tsx";
+import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import { useCart } from "../context/CartContext.tsx";
 
 const Header = () => {
-  const { purchase } = usePurchase();
+  const { purchaseCount } = usePurchaseCount();
   const { toggleCart, setToggleCart } = useCart();
 
   return (
@@ -60,7 +60,7 @@ const Header = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="purchase">{purchase}</span>
+                <span className="purchase">{purchaseCount}</span>
               </div>
             </li>
           </ul>

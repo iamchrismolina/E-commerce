@@ -17,17 +17,17 @@ import "./modern-normalize.css";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { SearchProvider } from "./context/SearchContext.tsx";
-import { PurchaseProvider } from "./context/PurchaseContext.tsx";
+import { PurchaseCountProvider } from "./context/PurchaseCountContext.tsx";
 import { CartProvider } from "./context/CartContext.tsx";
-import { ProductProvider } from "./context/ProductContext.tsx";
+import { TotalAmountProvider } from "./context/TotalAmountContext.tsx";
 
 function App() {
   return (
     <Router>
       <SearchProvider>
-        <PurchaseProvider>
+        <PurchaseCountProvider>
           <CartProvider>
-            <ProductProvider>
+            <TotalAmountProvider>
               <Header />
               <Cart />
               <Routes>
@@ -40,9 +40,9 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
               </Routes>
               <Footer />
-            </ProductProvider>
+            </TotalAmountProvider>
           </CartProvider>
-        </PurchaseProvider>
+        </PurchaseCountProvider>
       </SearchProvider>
     </Router>
   );

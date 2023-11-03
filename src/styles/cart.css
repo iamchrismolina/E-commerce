@@ -1,11 +1,13 @@
 .cart {
   right: 0;
-  /* right: -24rem; */
-  width: 0;
-  /* transition: all 0.5s; */
-  transition: width 0.5s ease;
+  right: -24rem;
+  /* width: 0; */
+  transition: all 0.5s;
+  /* transition: width 0.5s ease; */
+  max-width: 24rem;
 }
 
 .cart-active {
-  width: 24rem;
+  right: 0;
+  /* width: 24rem; */
 }
