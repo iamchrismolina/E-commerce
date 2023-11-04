@@ -35,6 +35,7 @@ const Jewelries = () => {
       count: number;
     };
     fill: boolean;
+    quantity: number;
   };
 
   const searchData: ProductProps[] | undefined = productsJewelries.filter(

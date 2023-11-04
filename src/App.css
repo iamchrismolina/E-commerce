@@ -6,3 +6,7 @@
   --color-white: #fff;
   --color-danger: #ff0000;
 }
+
+.warning-custom {
+  background-color: rgba(217, 213, 197, 0.3);
+}

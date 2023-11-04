@@ -35,6 +35,7 @@ const Women = () => {
       count: number;
     };
     fill: boolean;
+    quantity: number;
   };
 
   const searchData: ProductProps[] | undefined = productsWomen.filter(

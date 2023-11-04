@@ -35,6 +35,7 @@ const Electronics = () => {
       count: number;
     };
     fill: boolean;
+    quantity: number;
   };
 
   const searchData: ProductProps[] | undefined = productsElectronics.filter(

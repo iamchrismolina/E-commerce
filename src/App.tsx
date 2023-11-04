@@ -20,30 +20,33 @@ import { SearchProvider } from "./context/SearchContext.tsx";
 import { PurchaseCountProvider } from "./context/PurchaseCountContext.tsx";
 import { CartProvider } from "./context/CartContext.tsx";
 import { TotalAmountProvider } from "./context/TotalAmountContext.tsx";
+import { WarningProvider } from "./context/WarningContext.tsx";
 
 function App() {
   return (
     <Router>
-      <SearchProvider>
-        <PurchaseCountProvider>
-          <CartProvider>
+      <WarningProvider>
+        <SearchProvider>
+          <PurchaseCountProvider>
             <TotalAmountProvider>
-              <Header />
-              <Cart />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/men" element={<Men />} />
-                <Route path="/women" element={<Women />} />
-                <Route path="/jewelry" element={<Jewelry />} />
-                <Route path="/electronic" element={<Electronic />} />
-                <Route path="/help" element={<Help />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
-              <Footer />
+              <CartProvider>
+                <Header />
+                <Cart />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/men" element={<Men />} />
+                  <Route path="/women" element={<Women />} />
+                  <Route path="/jewelry" element={<Jewelry />} />
+                  <Route path="/electronic" element={<Electronic />} />
+                  <Route path="/help" element={<Help />} />
+                  <Route path="/contact" element={<Contact />} />
+                </Routes>
+                <Footer />
+              </CartProvider>
             </TotalAmountProvider>
-          </CartProvider>
-        </PurchaseCountProvider>
-      </SearchProvider>
+          </PurchaseCountProvider>
+        </SearchProvider>
+      </WarningProvider>
     </Router>
   );
 }

@@ -2,12 +2,15 @@
 import { useCart } from "../context/CartContext.tsx";
 import { useTotalAmount } from "../context/TotalAmountContext.tsx";
 import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
+import Warning from "./Warning.tsx";
+import { useWarning } from "../context/WarningContext.tsx";
 
 const Cart = () => {
   const { toggleCart, cart, addQuantity, deductQuantity } = useCart();
   const { totalAmount, addOnTotalAmount, deductOnTotalAmount } =
     useTotalAmount();
   const { setPurchaseCount } = usePurchaseCount();
+  const { displayWarning } = useWarning();
 
   return (
     <aside
@@ -21,20 +24,23 @@ const Cart = () => {
           <img src="./images/shoppingcart.png" className="w-full h-full" />
         </div>
       </div>
+      {displayWarning ? <Warning /> : null}
       <div className="px-6 pt-2 w-full h-3/5 overflow-y-scroll box-content">
         <ul className="flex flex-col items-center pr-4 gap-6">
           {cart.length === 0 ? (
-            <span className="text-2xl justify-self-center">Cart Empty</span>
+            <span className="text-2xl justify-self-center bg-sky-50 p-2 rounded">
+              Cart Empty
+            </span>
           ) : (
             cart.map((product) => (
               <li key={product.id} className="w-5/6">
-                <div className="relative p-2 border-2 border-blue-500 rounded">
+                <div className="relative p-2 border-2 border-blue-500 bg-gray-100 rounded">
                   <img
                     src={product.image}
-                    className="w-24 h-24 overflow-clip bottom-"
+                    className="w-24 h-24 overflow-clip"
                   />
                   <span>{product.title}</span>
-                  <hr />
+                  <hr className="border-black" />
                   <span>Price: ${product.price}</span>
                   <div className="flex justify-between font-bold">
                     <span>Qty: {product.quantity}</span>

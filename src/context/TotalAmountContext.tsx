@@ -2,7 +2,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 type TotalAmountContextProps = {
   totalAmount: number;
-  // setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
+  setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
   addOnTotalAmount: (productPrice: number) => void;
   deductOnTotalAmount: (productPrice: number) => void;
 };
@@ -19,18 +19,25 @@ export const TotalAmountProvider = ({ children }: TotalAmountProvider) => {
   const [totalAmount, setTotalAmount] = useState(0);
 
   const addOnTotalAmount = (productPrice: number) => {
-    const roundedPrice = parseInt(productPrice.toFixed(4));
-    setTotalAmount((prevPrice) => prevPrice + roundedPrice);
+    const currentTotalPrice = totalAmount + productPrice;
+    const roundedPrice = Number(currentTotalPrice.toFixed(2));
+    setTotalAmount(roundedPrice);
   };
 
   const deductOnTotalAmount = (productPrice: number) => {
-    const roundedPrice = parseInt(productPrice.toFixed(4));
-    setTotalAmount((prevPrice) => prevPrice - roundedPrice);
+    const currentTotalPrice = totalAmount - productPrice;
+    const roundedPrice = Number(currentTotalPrice.toFixed(2));
+    setTotalAmount(roundedPrice);
   };
 
   return (
     <TotalAmountContext.Provider
-      value={{ totalAmount, addOnTotalAmount, deductOnTotalAmount }}
+      value={{
+        totalAmount,
+        setTotalAmount,
+        addOnTotalAmount,
+        deductOnTotalAmount,
+      }}
     >
       {children}
     </TotalAmountContext.Provider>
