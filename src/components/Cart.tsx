@@ -34,7 +34,7 @@ const Cart = () => {
           ) : (
             cart.map((product) => (
               <li key={product.id} className="w-5/6">
-                <div className="relative p-2 border-2 border-blue-500 bg-gray-100 rounded">
+                <div className="relative p-2 border-2 border-blue-500  bg-gray-100 rounded">
                   <img
                     src={product.image}
                     className="w-24 h-24 overflow-clip"

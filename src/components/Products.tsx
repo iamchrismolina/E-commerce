@@ -24,7 +24,7 @@ type ProductsProps = {
 
 const Products = ({ products }: ProductsProps) => {
   const { setPurchaseCount } = usePurchaseCount();
-  const { cart, addToCart } = useCart();
+  const { cart, addToCart, currentProductCount } = useCart();
   const { addOnTotalAmount } = useTotalAmount();
   const [render, setRender] = useState(false);
 
@@ -93,7 +93,7 @@ const Products = ({ products }: ProductsProps) => {
             />
           </svg>
         </span>
-        <span>Count: {product.rating.count}</span>
+        <span>Count: {currentProductCount || product.rating.count}</span>
       </div>
       <span className="cursor-pointer p-2">
         <div

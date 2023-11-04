@@ -25,6 +25,7 @@ type CartContextProps = {
   addToCart: (product: productProps) => void;
   addQuantity: (product: productProps) => boolean;
   deductQuantity: (product: productProps) => boolean;
+  currentProductCount: number;
 };
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -39,6 +40,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [productToRemove, setProductToRemove] = useState<productProps | null>(
     null
   );
+  const [currentProductCount, setCurrentProductCount] = useState(0);
   const { setDisplayWarning, userResponse, setUserResponse } = useWarning();
   const { setTotalAmount } = useTotalAmount();
   const { setPurchaseCount } = usePurchaseCount();
@@ -69,6 +71,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       );
 
       setCart(updatedCart);
+      setCurrentProductCount(updatedProduct.rating.count);
       return true;
     }
   };
@@ -88,6 +91,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         item.id === product.id ? updatedProduct : item
       );
       setCart(updatedCart);
+      setCurrentProductCount(updatedProduct.rating.count);
       return true;
     }
   };
@@ -104,12 +108,14 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const removeProduct = (removeProduct: productProps) => {
     const removeProductPrice: number = removeProduct.price;
+    const removeProductCount: number = removeProduct.rating.count;
     const updatedCart = cart.filter(
       (product) => product.id != removeProduct.id
     );
     setTotalAmount((prevValue) =>
       Number((prevValue - removeProductPrice).toFixed(2))
     );
+    setCurrentProductCount(removeProductCount + 1);
     return updatedCart;
   };
 
@@ -122,6 +128,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         addToCart,
         addQuantity,
         deductQuantity,
+        currentProductCount,
       }}
     >
       {children}
