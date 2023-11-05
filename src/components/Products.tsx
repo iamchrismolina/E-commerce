@@ -40,7 +40,6 @@ const Products = ({ products }: ProductsProps) => {
         if (product.id === updatedProductCount?.productId) {
           return {
             ...product,
-            fill: updatedProductCount.productFill,
             rating: {
               ...product.rating,
               count: updatedProductCount.productCount,

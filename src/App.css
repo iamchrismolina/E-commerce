@@ -7,6 +7,10 @@
   --color-danger: #ff0000;
 }
 
-.warning-custom {
+.warning-custom-clr {
   background-color: rgba(217, 213, 197, 0.3);
+}
+
+.warning-bg-custom-clr {
+  background-color: #f2ae72;
 }

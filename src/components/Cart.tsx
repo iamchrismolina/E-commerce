@@ -4,6 +4,7 @@ import { useTotalAmount } from "../context/TotalAmountContext.tsx";
 import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import Warning from "./Warning.tsx";
 import { useWarning } from "../context/WarningContext.tsx";
+import Checkout from "./Checkout.tsx";
 
 const Cart = () => {
   const { toggleCart, cart, addQuantity, deductQuantity } = useCart();
@@ -83,9 +84,7 @@ const Cart = () => {
           <span>Total:</span>
           <span>${totalAmount}</span>
         </div>
-        <div className="text-4xl font-bold text-center mt-2">
-          <button className="rounded bg-sky-300 p-2 ">Checkout</button>
-        </div>
+        <Checkout />
       </div>
     </aside>
   );

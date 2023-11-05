@@ -29,13 +29,11 @@ type CartContextProps = {
   deductQuantity: (product: productProps) => boolean;
   updatedProductCount: {
     productId: number;
-    productFill: boolean;
     productCount: number;
   } | null;
   setUpdatedProductCount: React.Dispatch<
     React.SetStateAction<{
       productId: number;
-      productFill: boolean;
       productCount: number;
     } | null>
   >;
@@ -49,7 +47,6 @@ type CartProviderProps = {
 
 interface UpdatedProductCountProps {
   productId: number;
-  productFill: boolean;
   productCount: number;
 }
 
@@ -93,7 +90,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       setCart(updatedCart);
       setUpdatedProductCount({
         productId: updatedProduct.id,
-        productFill: updatedProduct.fill,
         productCount: updatedProduct.rating.count,
       });
       return true;
@@ -117,7 +113,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       setCart(updatedCart);
       setUpdatedProductCount({
         productId: updatedProduct.id,
-        productFill: updatedProduct.fill,
         productCount: updatedProduct.rating.count,
       });
       return true;
@@ -144,7 +139,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     );
     setUpdatedProductCount({
       productId: removeProduct.id,
-      productFill: removeProduct.fill,
       productCount: removeProduct.rating.count + 1,
     });
     return updatedCart;
@@ -156,7 +150,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         toggleCart,
         setToggleCart,
         cart,
-        // setCart,
         addToCart,
         addQuantity,
         deductQuantity,
