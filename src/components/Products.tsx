@@ -28,29 +28,53 @@ const Products = ({ products }: ProductsProps) => {
   const { cart, addToCart, updatedProductCount, setUpdatedProductCount } =
     useCart();
   const { addOnTotalAmount } = useTotalAmount();
+
+  const cachedData = window.localStorage.getItem("cachedNewProducts");
+  const [cachedProducts, setCachedProducts] = useState<ProductProps[] | null>(
+    cachedData ? JSON.parse(cachedData) : null
+  );
+
   const [render, setRender] = useState(false);
 
+  // Get cached data if available
+  /*   useEffect(() => {
+    const data = window.localStorage.getItem("cachedNewProducts");
+    console.log("cachedNewProducts: ", data);
+    if (data) {
+      setCachedProducts(JSON.parse(data));
+    }
+  }, []); */
+
   // Copy Reference Data
-  const productsCopy = useRef([...products]);
+  const productsCopy = useRef(cachedProducts ?? [...products]);
 
   // Monitor Data for Changes
   useEffect(() => {
     if (updatedProductCount !== null) {
-      const newProductsCopy = productsCopy.current.map((product) => {
-        if (product.id === updatedProductCount?.productId) {
-          return {
-            ...product,
-            rating: {
-              ...product.rating,
-              count: updatedProductCount.productCount,
-            },
-          };
-        } else {
-          return product;
+      const filteredProductsCopy = productsCopy.current.map(
+        (product: ProductProps) => {
+          if (product.id === updatedProductCount?.productId) {
+            return {
+              ...product,
+              rating: {
+                ...product.rating,
+                count: updatedProductCount.productCount,
+              },
+            };
+          } else {
+            return product;
+          }
         }
-      });
+      );
       // Assign Current to New Updated Data
-      productsCopy.current = [...newProductsCopy];
+      // productsCopy.current = [...filteredProductsCopy];
+      productsCopy.current = filteredProductsCopy;
+
+      // Set data for caching
+      window.localStorage.setItem(
+        "cachedNewProducts",
+        JSON.stringify(productsCopy.current)
+      );
     }
     setUpdatedProductCount(null);
   }, [updatedProductCount]);
