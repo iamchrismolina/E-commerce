@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import { useCart } from "../context/CartContext.tsx";
 import { useTotalAmount } from "../context/TotalAmountContext.tsx";
+import { initializeCount } from "../utils/updateCount.tsx";
 
 type ProductProps = {
   id: number;
@@ -24,9 +25,40 @@ type ProductsProps = {
 
 const Products = ({ products }: ProductsProps) => {
   const { setPurchaseCount } = usePurchaseCount();
-  const { cart, addToCart, currentProductCount } = useCart();
+  const { cart, addToCart, updatedProductCount, setUpdatedProductCount } =
+    useCart();
   const { addOnTotalAmount } = useTotalAmount();
   const [render, setRender] = useState(false);
+
+  // Copy Reference Data
+  const productsCopy = useRef([...products]);
+
+  // Monitor Data for Changes
+  useEffect(() => {
+    if (updatedProductCount !== null) {
+      const newProductsCopy = productsCopy.current.map((product) => {
+        if (product.id === updatedProductCount?.productId) {
+          return {
+            ...product,
+            fill: updatedProductCount.productFill,
+            rating: {
+              ...product.rating,
+              count: updatedProductCount.productCount,
+            },
+          };
+        } else {
+          return product;
+        }
+      });
+      // Assign Current to New Updated Data
+      productsCopy.current = [...newProductsCopy];
+    }
+    setUpdatedProductCount(null);
+  }, [updatedProductCount]);
+
+  // Reassign to either old or new if it changes
+  // To copy either of the 2 states and be consistent
+  const newProducts = productsCopy.current;
 
   const toggleRating = (product: ProductProps) => {
     setRender(!render);
@@ -36,19 +68,7 @@ const Products = ({ products }: ProductsProps) => {
       : Math.round((product.rating.rate - 0.1) * 10) / 10;
   };
 
-  const toggleCount = (product: ProductProps) => {
-    if (product.rating.count == 0) {
-      alert("Max item count exceeded!");
-      return false;
-    } else if (cart.includes(product)) {
-      return false;
-    } else {
-      product.rating.count -= 1;
-      return true;
-    }
-  };
-
-  return products.map((product) => (
+  return newProducts.map((product) => (
     <div
       key={product.id}
       className="p-2 border-2 max-w-xs h-96 rounded overflow-hidden shadow-lg flex flex-col justify-center items-center "
@@ -93,13 +113,13 @@ const Products = ({ products }: ProductsProps) => {
             />
           </svg>
         </span>
-        <span>Count: {currentProductCount || product.rating.count}</span>
+        <span>Count: {product.rating.count}</span>
       </div>
       <span className="cursor-pointer p-2">
         <div
           className="rounded-lg relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
           onClick={() => {
-            const res = toggleCount(product);
+            const res = initializeCount(product, cart);
             addToCart(product);
             if (res == true) {
               setPurchaseCount((prev: number) => prev + 1);

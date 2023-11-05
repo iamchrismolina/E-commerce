@@ -16,16 +16,29 @@ type productProps = {
     count: number;
   };
   quantity: number;
+  fill: boolean;
 };
 
 type CartContextProps = {
   toggleCart: boolean;
   setToggleCart: React.Dispatch<React.SetStateAction<boolean>>;
   cart: productProps[];
+  // setCart: React.Dispatch<React.SetStateAction<productProps[]>>;
   addToCart: (product: productProps) => void;
   addQuantity: (product: productProps) => boolean;
   deductQuantity: (product: productProps) => boolean;
-  currentProductCount: number;
+  updatedProductCount: {
+    productId: number;
+    productFill: boolean;
+    productCount: number;
+  } | null;
+  setUpdatedProductCount: React.Dispatch<
+    React.SetStateAction<{
+      productId: number;
+      productFill: boolean;
+      productCount: number;
+    } | null>
+  >;
 };
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -34,16 +47,23 @@ type CartProviderProps = {
   children: ReactNode;
 };
 
+interface UpdatedProductCountProps {
+  productId: number;
+  productFill: boolean;
+  productCount: number;
+}
+
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [toggleCart, setToggleCart] = useState(false);
   const [cart, setCart] = useState<productProps[]>([]);
   const [productToRemove, setProductToRemove] = useState<productProps | null>(
     null
   );
-  const [currentProductCount, setCurrentProductCount] = useState(0);
   const { setDisplayWarning, userResponse, setUserResponse } = useWarning();
   const { setTotalAmount } = useTotalAmount();
   const { setPurchaseCount } = usePurchaseCount();
+  const [updatedProductCount, setUpdatedProductCount] =
+    useState<UpdatedProductCountProps | null>(null);
 
   const addToCart = (product: productProps) => {
     if (cart.includes(product)) {
@@ -71,7 +91,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       );
 
       setCart(updatedCart);
-      setCurrentProductCount(updatedProduct.rating.count);
+      setUpdatedProductCount({
+        productId: updatedProduct.id,
+        productFill: updatedProduct.fill,
+        productCount: updatedProduct.rating.count,
+      });
       return true;
     }
   };
@@ -91,7 +115,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         item.id === product.id ? updatedProduct : item
       );
       setCart(updatedCart);
-      setCurrentProductCount(updatedProduct.rating.count);
+      setUpdatedProductCount({
+        productId: updatedProduct.id,
+        productFill: updatedProduct.fill,
+        productCount: updatedProduct.rating.count,
+      });
       return true;
     }
   };
@@ -108,14 +136,17 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const removeProduct = (removeProduct: productProps) => {
     const removeProductPrice: number = removeProduct.price;
-    const removeProductCount: number = removeProduct.rating.count;
     const updatedCart = cart.filter(
       (product) => product.id != removeProduct.id
     );
     setTotalAmount((prevValue) =>
       Number((prevValue - removeProductPrice).toFixed(2))
     );
-    setCurrentProductCount(removeProductCount + 1);
+    setUpdatedProductCount({
+      productId: removeProduct.id,
+      productFill: removeProduct.fill,
+      productCount: removeProduct.rating.count + 1,
+    });
     return updatedCart;
   };
 
@@ -125,10 +156,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         toggleCart,
         setToggleCart,
         cart,
+        // setCart,
         addToCart,
         addQuantity,
         deductQuantity,
-        currentProductCount,
+        updatedProductCount,
+        setUpdatedProductCount,
       }}
     >
       {children}
