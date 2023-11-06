@@ -75,8 +75,8 @@ const Products = ({ products }: ProductsProps) => {
 
   const toggleRating = (product: ProductProps) => {
     const productRate = product.fill
-      ? Math.round((product.rating.rate + 0.1) * 10) / 10
-      : Math.round((product.rating.rate - 0.1) * 10) / 10;
+      ? Math.round((product.rating.rate - 0.1) * 10) / 10
+      : Math.round((product.rating.rate + 0.1) * 10) / 10;
     const updatedProduct = {
       ...product,
       fill: !product.fill,
