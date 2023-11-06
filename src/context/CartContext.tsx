@@ -43,6 +43,7 @@ type CartContextProps = {
       productQuantity: number;
     } | null>
   >;
+  // removeProduct: (productToRemove: productProps) => void;
 };
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -199,7 +200,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       productRate: productToRemove.rating.rate,
       productCount: productToRemove.rating.count + 1,
       productFill: productToRemove.fill,
-      productQuantity: productToRemove.quantity,
+      productQuantity: 0,
     });
 
     return updatedCart;

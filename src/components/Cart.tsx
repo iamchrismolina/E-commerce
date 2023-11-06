@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext.tsx";
 import { useTotalAmount } from "../context/TotalAmountContext.tsx";
 import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
@@ -6,12 +6,71 @@ import Warning from "./Warning.tsx";
 import { useWarning } from "../context/WarningContext.tsx";
 import Checkout from "./Checkout.tsx";
 
+type productProps = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+  fill: boolean;
+  quantity: number;
+};
+
 const Cart = () => {
-  const { toggleCart, cart, addQuantity, deductQuantity } = useCart();
-  const { totalAmount, addOnTotalAmount, deductOnTotalAmount } =
+  const {
+    toggleCart,
+    cart,
+    setCart,
+    addQuantity,
+    deductQuantity,
+    setUpdatedProduct,
+  } = useCart();
+  const { totalAmount, setTotalAmount, addOnTotalAmount, deductOnTotalAmount } =
     useTotalAmount();
   const { setPurchaseCount } = usePurchaseCount();
-  const { displayWarning } = useWarning();
+  const { userResponse, displayWarning, setDisplayWarning } = useWarning();
+  const [productToDelete, setProductToDelete] = useState<productProps | null>(
+    null
+  );
+
+  const deleteProduct = (product: productProps) => {
+    setCart((prevCart) => {
+      return prevCart.filter((item) => item.id != product.id);
+    });
+
+    setTotalAmount((prevValue) =>
+      Number((prevValue - product.price * product.quantity).toFixed(2))
+    );
+
+    setPurchaseCount((prevAmount) => prevAmount - product.quantity);
+
+    setUpdatedProduct((prevValue) => {
+      return {
+        productId: product.id,
+        productRate: product.rating.rate,
+        productCount: product.rating.count + product.quantity,
+        productFill: product.fill,
+        productQuantity: 0,
+      };
+    });
+  };
+
+  const confirmDeleteProduct = (product: productProps) => {
+    setDisplayWarning(true);
+    setProductToDelete(product);
+  };
+
+  useEffect(() => {
+    if (userResponse === true && productToDelete) {
+      deleteProduct(productToDelete);
+      setProductToDelete(null);
+    }
+  }, [userResponse]);
 
   return (
     <aside
@@ -35,11 +94,21 @@ const Cart = () => {
           ) : (
             cart.map((product) => (
               <li key={product.id} className="w-5/6">
-                <div className="relative p-2 border-2 border-blue-500  bg-gray-100 rounded">
-                  <img
-                    src={product.image}
-                    className="w-24 h-24 overflow-clip"
-                  />
+                <div className="relative p-2 px-4 border-2 border-blue-500  bg-gray-100 rounded">
+                  <div className="flex justify-between">
+                    <img
+                      src={product.image}
+                      className="w-24 h-24 overflow-clip"
+                    />
+                    <span
+                      className="self-start text-lg cursor-pointer"
+                      onClick={() => {
+                        confirmDeleteProduct(product);
+                      }}
+                    >
+                      X
+                    </span>
+                  </div>
                   <span>{product.title}</span>
                   <hr className="border-black" />
                   <span>Price: ${product.price}</span>

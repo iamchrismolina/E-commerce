@@ -83,6 +83,7 @@ const Products = ({ products }: ProductsProps) => {
       rating: { ...product.rating, rate: productRate },
     };
 
+    // Synchronize Cart & Products
     if (cart.find((item) => item.id === product.id)) {
       setCart((prevCart) => {
         return prevCart.map((item) => {
