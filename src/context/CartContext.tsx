@@ -15,26 +15,32 @@ type productProps = {
     rate: number;
     count: number;
   };
-  quantity: number;
   fill: boolean;
+  quantity: number;
 };
 
 type CartContextProps = {
   toggleCart: boolean;
   setToggleCart: React.Dispatch<React.SetStateAction<boolean>>;
   cart: productProps[];
-  // setCart: React.Dispatch<React.SetStateAction<productProps[]>>;
-  addToCart: (product: productProps) => void;
+  setCart: React.Dispatch<React.SetStateAction<productProps[]>>;
+  addToCart: (product: productProps) => boolean;
   addQuantity: (product: productProps) => boolean;
   deductQuantity: (product: productProps) => boolean;
-  updatedProductCount: {
+  updatedProduct: {
     productId: number;
+    productFill: boolean;
+    productRate: number;
     productCount: number;
+    productQuantity: number;
   } | null;
-  setUpdatedProductCount: React.Dispatch<
+  setUpdatedProduct: React.Dispatch<
     React.SetStateAction<{
       productId: number;
+      productRate: number;
       productCount: number;
+      productFill: boolean;
+      productQuantity: number;
     } | null>
   >;
 };
@@ -45,30 +51,65 @@ type CartProviderProps = {
   children: ReactNode;
 };
 
-interface UpdatedProductCountProps {
+interface UpdatedProductProps {
   productId: number;
+  productRate: number;
   productCount: number;
+  productFill: boolean;
+  productQuantity: number;
 }
 
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [toggleCart, setToggleCart] = useState(false);
-  const [cart, setCart] = useState<productProps[]>([]);
+  const cachedData = localStorage.getItem("cachedCart");
+  const [cart, setCart] = useState<productProps[]>(
+    cachedData ? JSON.parse(cachedData) : []
+  );
   const [productToRemove, setProductToRemove] = useState<productProps | null>(
     null
   );
   const { setDisplayWarning, userResponse, setUserResponse } = useWarning();
   const { setTotalAmount } = useTotalAmount();
   const { setPurchaseCount } = usePurchaseCount();
-  const [updatedProductCount, setUpdatedProductCount] =
-    useState<UpdatedProductCountProps | null>(null);
+  const [updatedProduct, setUpdatedProduct] =
+    useState<UpdatedProductProps | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("cachedCart", JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product: productProps) => {
-    if (cart.includes(product)) {
+    console.log(cart);
+    if (cart.find((item) => item.id === product.id)) {
       alert("Item already in cart!");
       return false;
     } else {
-      product.quantity = 1;
-      setCart([...cart, product]);
+      const updatedProduct = {
+        ...product,
+        rating: {
+          ...product.rating,
+          count: product.rating.count - 1,
+        },
+        quantity: 1,
+      };
+
+      // setCart([...cart, updatedProduct]);
+      setCart((prevCart) => {
+        return [...prevCart, updatedProduct];
+      });
+
+      // To be able to access the latest data as possible
+      setUpdatedProduct((prevProduct) => {
+        return {
+          productId: updatedProduct.id,
+          productRate: updatedProduct.rating.rate,
+          productCount: updatedProduct.rating.count,
+          productFill: updatedProduct.fill,
+          productQuantity: updatedProduct.quantity,
+        };
+      });
+
+      return true;
     }
   };
 
@@ -83,15 +124,21 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         rating: { ...product.rating, count: product.rating.count - 1 },
       };
 
-      const updatedCart = cart.map((item) =>
-        item.id === product.id ? updatedProduct : item
-      );
-
-      setCart(updatedCart);
-      setUpdatedProductCount({
-        productId: updatedProduct.id,
-        productCount: updatedProduct.rating.count,
+      setCart((prevCart) => {
+        const updatedCart = prevCart.map((item) =>
+          item.id === product.id ? updatedProduct : item
+        );
+        return updatedCart;
       });
+
+      setUpdatedProduct((prevProduct) => ({
+        productId: updatedProduct.id,
+        productRate: updatedProduct.rating.rate,
+        productCount: updatedProduct.rating.count,
+        productFill: updatedProduct.fill,
+        productQuantity: updatedProduct.quantity,
+      }));
+
       return true;
     }
   };
@@ -107,14 +154,20 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         quantity: product.quantity - 1,
         rating: { ...product.rating, count: product.rating.count + 1 },
       };
+
       const updatedCart = cart.map((item) =>
         item.id === product.id ? updatedProduct : item
       );
+
       setCart(updatedCart);
-      setUpdatedProductCount({
+      setUpdatedProduct({
         productId: updatedProduct.id,
+        productRate: updatedProduct.rating.rate,
         productCount: updatedProduct.rating.count,
+        productFill: updatedProduct.fill,
+        productQuantity: updatedProduct.quantity,
       });
+
       return true;
     }
   };
@@ -126,21 +179,29 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       setPurchaseCount((prevValue) => prevValue - 1);
       setProductToRemove(null);
     }
+
     setUserResponse(false);
   }, [userResponse]);
 
-  const removeProduct = (removeProduct: productProps) => {
-    const removeProductPrice: number = removeProduct.price;
+  const removeProduct = (productToRemove: productProps) => {
     const updatedCart = cart.filter(
-      (product) => product.id != removeProduct.id
+      (product) => product.id != productToRemove.id
     );
+    setCart(updatedCart);
+
+    const productToRemovePrice = productToRemove.price;
     setTotalAmount((prevValue) =>
-      Number((prevValue - removeProductPrice).toFixed(2))
+      Number((prevValue - productToRemovePrice).toFixed(2))
     );
-    setUpdatedProductCount({
-      productId: removeProduct.id,
-      productCount: removeProduct.rating.count + 1,
+
+    setUpdatedProduct({
+      productId: productToRemove.id,
+      productRate: productToRemove.rating.rate,
+      productCount: productToRemove.rating.count + 1,
+      productFill: productToRemove.fill,
+      productQuantity: productToRemove.quantity,
     });
+
     return updatedCart;
   };
 
@@ -150,11 +211,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         toggleCart,
         setToggleCart,
         cart,
+        setCart,
         addToCart,
         addQuantity,
         deductQuantity,
-        updatedProductCount,
-        setUpdatedProductCount,
+        updatedProduct,
+        setUpdatedProduct,
       }}
     >
       {children}

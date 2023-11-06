@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import { useCart } from "../context/CartContext.tsx";
 import { useTotalAmount } from "../context/TotalAmountContext.tsx";
-import { initializeCount } from "../utils/updateCount.tsx";
 
 type ProductProps = {
   id: number;
@@ -25,41 +24,32 @@ type ProductsProps = {
 
 const Products = ({ products }: ProductsProps) => {
   const { setPurchaseCount } = usePurchaseCount();
-  const { cart, addToCart, updatedProductCount, setUpdatedProductCount } =
+  const { cart, setCart, addToCart, updatedProduct, setUpdatedProduct } =
     useCart();
   const { addOnTotalAmount } = useTotalAmount();
 
-  const cachedData = window.localStorage.getItem("cachedNewProducts");
+  const cachedData = localStorage.getItem("cachedNewProducts");
   const [cachedProducts, setCachedProducts] = useState<ProductProps[] | null>(
     cachedData ? JSON.parse(cachedData) : null
   );
-
-  const [render, setRender] = useState(false);
-
-  // Get cached data if available
-  /*   useEffect(() => {
-    const data = window.localStorage.getItem("cachedNewProducts");
-    console.log("cachedNewProducts: ", data);
-    if (data) {
-      setCachedProducts(JSON.parse(data));
-    }
-  }, []); */
 
   // Copy Reference Data
   const productsCopy = useRef(cachedProducts ?? [...products]);
 
   // Monitor Data for Changes
   useEffect(() => {
-    if (updatedProductCount !== null) {
+    if (updatedProduct !== null) {
       const filteredProductsCopy = productsCopy.current.map(
         (product: ProductProps) => {
-          if (product.id === updatedProductCount?.productId) {
+          if (product.id === updatedProduct?.productId) {
             return {
               ...product,
               rating: {
-                ...product.rating,
-                count: updatedProductCount.productCount,
+                rate: updatedProduct.productRate,
+                count: updatedProduct.productCount,
               },
+              fill: updatedProduct.productFill,
+              quantity: updatedProduct.productQuantity,
             };
           } else {
             return product;
@@ -67,28 +57,51 @@ const Products = ({ products }: ProductsProps) => {
         }
       );
       // Assign Current to New Updated Data
-      // productsCopy.current = [...filteredProductsCopy];
+
       productsCopy.current = filteredProductsCopy;
 
       // Set data for caching
-      window.localStorage.setItem(
+      localStorage.setItem(
         "cachedNewProducts",
         JSON.stringify(productsCopy.current)
       );
     }
-    setUpdatedProductCount(null);
-  }, [updatedProductCount]);
+    setUpdatedProduct(null);
+  }, [updatedProduct]);
 
   // Reassign to either old or new if it changes
   // To copy either of the 2 states and be consistent
   const newProducts = productsCopy.current;
 
   const toggleRating = (product: ProductProps) => {
-    setRender(!render);
-    product.fill = !product.fill;
-    product.rating.rate = product.fill
+    const productRate = product.fill
       ? Math.round((product.rating.rate + 0.1) * 10) / 10
       : Math.round((product.rating.rate - 0.1) * 10) / 10;
+    const updatedProduct = {
+      ...product,
+      fill: !product.fill,
+      rating: { ...product.rating, rate: productRate },
+    };
+
+    if (cart.find((item) => item.id === product.id)) {
+      setCart((prevCart) => {
+        return prevCart.map((item) => {
+          if (item.id === updatedProduct.id) {
+            return updatedProduct;
+          } else {
+            return item;
+          }
+        });
+      });
+    }
+
+    setUpdatedProduct({
+      productId: updatedProduct.id,
+      productRate: updatedProduct.rating.rate,
+      productCount: updatedProduct.rating.count,
+      productFill: updatedProduct.fill,
+      productQuantity: updatedProduct.quantity,
+    });
   };
 
   return newProducts.map((product) => (
@@ -142,17 +155,20 @@ const Products = ({ products }: ProductsProps) => {
         <div
           className="rounded-lg relative w-36 h-8 flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
           onClick={() => {
-            const res = initializeCount(product, cart);
-            addToCart(product);
+            // const res = initializeCount(product, cart);
+            const res = addToCart(product);
             if (res == true) {
               setPurchaseCount((prev: number) => prev + 1);
               addOnTotalAmount(product.price);
             }
           }}
         >
-          <span className="text-white font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300">
+          <button
+            className="text-white font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300"
+            // disabled={cart.find((item) => item.id === product.id)}
+          >
             Add Item
-          </span>
+          </button>
           <span className="absolute right-0 h-full w-10 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
             <svg
               className="svg w-8 text-white"

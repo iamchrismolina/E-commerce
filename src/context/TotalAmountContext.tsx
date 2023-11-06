@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 type TotalAmountContextProps = {
   totalAmount: number;
@@ -16,7 +22,14 @@ type TotalAmountProvider = {
 };
 
 export const TotalAmountProvider = ({ children }: TotalAmountProvider) => {
-  const [totalAmount, setTotalAmount] = useState(0);
+  const cachedData = localStorage.getItem("cachedTotalAmount");
+  const [totalAmount, setTotalAmount] = useState(
+    cachedData ? JSON.parse(cachedData) : 0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cachedTotalAmount", JSON.stringify(totalAmount));
+  }, [totalAmount]);
 
   const addOnTotalAmount = (productPrice: number) => {
     const currentTotalPrice = totalAmount + productPrice;

@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 type PurchaseCountContextProps = {
   purchaseCount: number;
@@ -16,7 +22,14 @@ type PurchaseCountProviderProps = {
 export const PurchaseCountProvider = ({
   children,
 }: PurchaseCountProviderProps) => {
-  const [purchaseCount, setPurchaseCount] = useState(0);
+  const cachedData = localStorage.getItem("cachedPurchaseCount");
+  const [purchaseCount, setPurchaseCount] = useState(
+    cachedData ? JSON.parse(cachedData) : 0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cachedPurchaseCount", JSON.stringify(purchaseCount));
+  }, [purchaseCount]);
 
   return (
     <PurchaseCountContext.Provider value={{ purchaseCount, setPurchaseCount }}>
