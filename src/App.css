@@ -15,6 +15,11 @@
   background-color: #f2ae72;
 }
 
+.position-custom {
+  right: 50;
+  top: 0;
+}
+
 /* Scrollbar */
 body::-webkit-scrollbar {
   width: 8px;

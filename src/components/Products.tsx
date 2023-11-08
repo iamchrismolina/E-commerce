@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import { useCart } from "../context/CartContext.tsx";
 import { useTotalAmount } from "../context/TotalAmountContext.tsx";
+import { getProductsAll } from "../api/fakestoreAPI.tsx";
 
 type ProductProps = {
   id: number;
@@ -19,31 +20,59 @@ type ProductProps = {
 };
 
 type ProductsProps = {
-  products: ProductProps[];
-  setProductsOneForAll: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+  searchProducts: ProductProps[];
 };
 
-const Products = ({ products, setProductsOneForAll }: ProductsProps) => {
+const Products = ({ searchProducts }: ProductsProps) => {
   const { setPurchaseCount } = usePurchaseCount();
   const { cart, setCart, addToCart, updatedProduct, setUpdatedProduct } =
     useCart();
   const { addOnTotalAmount } = useTotalAmount();
-  const [productsCopy, setProductsCopy] = useState([...products]);
+  const cachedData = localStorage.getItem("cachedUserStateProducts");
+  const [userProducts, setUserProducts] = useState(
+    cachedData ? JSON.parse(cachedData) : []
+  );
+  const [productsToDisplay, setProductsToDisplay] = useState(userProducts);
 
-  console.log("products ", products);
-
-  // Copy Reference Data
-  // const productsCopy = useRef([...products]);
+  // If productsCopy becomes empty = get a copy again
   useEffect(() => {
-    setProductsCopy([...products]);
-  }, [products]);
+    if (userProducts.length === 0) {
+      const fetchData = async () => {
+        try {
+          const data = await getProductsAll();
+          setUserProducts(data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchData();
+    }
+  }, []);
 
-  console.log("productsCopy ", productsCopy);
+  // if userProducts change = store in local storage
+  useEffect(() => {
+    localStorage.setItem(
+      "cachedUserStateProducts",
+      JSON.stringify(userProducts)
+    );
+  }, [userProducts]);
+
+  // Filter User data by search
+  useEffect(() => {
+    const filteredToDisplayProducts = userProducts.filter(
+      (userProduct: ProductProps) => {
+        return searchProducts.some((searchProduct) => {
+          return userProduct.id === searchProduct.id;
+        });
+      }
+    );
+    setProductsToDisplay((prevValue) => filteredToDisplayProducts);
+  }, [searchProducts, userProducts]);
 
   // Monitor Data for Changes
   useEffect(() => {
     if (updatedProduct !== null) {
-      const filteredProductsCopy = productsCopy.map((product: ProductProps) => {
+      const filteredProductsCopy = userProducts.map((product: ProductProps) => {
         if (product.id === updatedProduct?.productId) {
           return {
             ...product,
@@ -58,20 +87,15 @@ const Products = ({ products, setProductsOneForAll }: ProductsProps) => {
           return product;
         }
       });
-      // update parent data component
-      setProductsOneForAll((prevValue) => filteredProductsCopy);
 
-      // Assign Current to New Updated Data
-      // productsCopy.current = filteredProductsCopy;
-      setProductsCopy((prevValue) => filteredProductsCopy);
+      // Assign New Updated Data to useData
+      setUserProducts((prevValue) => filteredProductsCopy);
     }
     setUpdatedProduct(null);
   }, [updatedProduct]);
 
   // Reassign to either old or new if it changes
   // To copy either of the 2 states and be consistent
-  // const newProducts = productsCopy.current;
-  const newProducts = productsCopy;
 
   const toggleRating = (product: ProductProps) => {
     const productRate = product.fill
@@ -106,9 +130,7 @@ const Products = ({ products, setProductsOneForAll }: ProductsProps) => {
     });
   };
 
-  console.log("newProducts ", newProducts);
-
-  return newProducts.map((product) => (
+  return productsToDisplay.map((product: ProductProps) => (
     <div
       key={product.id}
       className="p-2 border-2 max-w-xs h-96 rounded overflow-hidden shadow-lg flex flex-col justify-center items-center "
@@ -142,9 +164,7 @@ const Products = ({ products, setProductsOneForAll }: ProductsProps) => {
             strokeWidth={1.5}
             stroke="currentColor"
             className="w-6 h-6 cursor-pointer"
-            onClick={() => {
-              toggleRating(product);
-            }}
+            onClick={() => toggleRating(product)}
           >
             <path
               strokeLinecap="round"

@@ -13,6 +13,7 @@ import "./styles/navHighlight.css";
 import "./styles/searchbar.css";
 import "./styles/purchase.css";
 import "./styles/cart.css";
+import "./styles/hamburger.css";
 import "./modern-normalize.css";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";

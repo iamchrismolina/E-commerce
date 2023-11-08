@@ -43,7 +43,6 @@ type CartContextProps = {
       productQuantity: number;
     } | null>
   >;
-  // removeProduct: (productToRemove: productProps) => void;
 };
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -80,7 +79,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   }, [cart]);
 
   const addToCart = (product: productProps) => {
-    console.log(cart);
     if (cart.find((item) => item.id === product.id)) {
       alert("Item already in cart!");
       return false;
@@ -94,7 +92,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         quantity: 1,
       };
 
-      // setCart([...cart, updatedProduct]);
       setCart((prevCart) => {
         return [...prevCart, updatedProduct];
       });
