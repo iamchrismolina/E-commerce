@@ -41,7 +41,7 @@ const Header = () => {
 
         <div className="flex items-center relative">
           <ul
-            className={`hamburger gap-2 underline h-auto max-w-fit bg-orange-200 p-6 rounded flex flex-col border-2 border-orange-400 absolute top-12 right-12 z-30 xl:flex-row xl:static xl:bg-inherit xl:border-none xl:no-underline xl:gap-6 ${
+            className={`gap-2 underline h-auto max-w-fit bg-orange-200 p-6 rounded flex flex-col border-2 border-orange-400 absolute top-12 right-12 z-30 xl:flex-row xl:static xl:bg-inherit xl:border-none xl:no-underline xl:gap-6 xl:flex  ${
               displayHamburger ? "hidden" : ""
             }`}
           >
