@@ -5,22 +5,33 @@ import Products from "./Products.tsx";
 import { useSearch } from "../context/SearchContext.tsx";
 
 const Women = () => {
-  const [productsWomen, setProductsWomen] = useState([]);
+  const cachedData = localStorage.getItem("cachedProductsWomen");
+  const [productsWomen, setProductsWomen] = useState(
+    cachedData ? JSON.parse(cachedData) : []
+  );
   const [loading, setLoading] = useState(true);
   const { search } = useSearch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getProductsWomen();
-        setProductsWomen(data);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    localStorage.setItem("cachedProductsWomen", JSON.stringify(productsWomen));
+  }, [productsWomen]);
 
-    fetchData();
+  useEffect(() => {
+    if (productsWomen.length === 0) {
+      const fetchData = async () => {
+        try {
+          const data = await getProductsWomen();
+          setProductsWomen(data);
+          setLoading(false);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      fetchData();
+    } else if (cachedData) {
+      setLoading(false);
+    }
   }, []);
 
   type ProductProps = {
@@ -38,7 +49,7 @@ const Women = () => {
     quantity: number;
   };
 
-  const searchData: ProductProps[] | undefined = productsWomen.filter(
+  const searchData: ProductProps[] = productsWomen.filter(
     (product: ProductProps) => {
       return product.title.toLowerCase().includes(search.toLowerCase());
     }
@@ -50,7 +61,14 @@ const Women = () => {
         loading ? "flex h-96" : "grid"
       } place-content-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 text-center`}
     >
-      {loading ? <Spinner /> : <Products products={searchData} />}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Products
+          products={searchData}
+          setProductsOneForAll={setProductsWomen}
+        />
+      )}
     </div>
   );
 };

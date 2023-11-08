@@ -20,58 +20,58 @@ type ProductProps = {
 
 type ProductsProps = {
   products: ProductProps[];
+  setProductsOneForAll: React.Dispatch<React.SetStateAction<ProductProps[]>>;
 };
 
-const Products = ({ products }: ProductsProps) => {
+const Products = ({ products, setProductsOneForAll }: ProductsProps) => {
   const { setPurchaseCount } = usePurchaseCount();
   const { cart, setCart, addToCart, updatedProduct, setUpdatedProduct } =
     useCart();
   const { addOnTotalAmount } = useTotalAmount();
+  const [productsCopy, setProductsCopy] = useState([...products]);
 
-  const cachedData = localStorage.getItem("cachedNewProducts");
-  const [cachedProducts, setCachedProducts] = useState<ProductProps[] | null>(
-    cachedData ? JSON.parse(cachedData) : null
-  );
+  console.log("products ", products);
 
   // Copy Reference Data
-  const productsCopy = useRef(cachedProducts ?? [...products]);
+  // const productsCopy = useRef([...products]);
+  useEffect(() => {
+    setProductsCopy([...products]);
+  }, [products]);
+
+  console.log("productsCopy ", productsCopy);
 
   // Monitor Data for Changes
   useEffect(() => {
     if (updatedProduct !== null) {
-      const filteredProductsCopy = productsCopy.current.map(
-        (product: ProductProps) => {
-          if (product.id === updatedProduct?.productId) {
-            return {
-              ...product,
-              rating: {
-                rate: updatedProduct.productRate,
-                count: updatedProduct.productCount,
-              },
-              fill: updatedProduct.productFill,
-              quantity: updatedProduct.productQuantity,
-            };
-          } else {
-            return product;
-          }
+      const filteredProductsCopy = productsCopy.map((product: ProductProps) => {
+        if (product.id === updatedProduct?.productId) {
+          return {
+            ...product,
+            rating: {
+              rate: updatedProduct.productRate,
+              count: updatedProduct.productCount,
+            },
+            fill: updatedProduct.productFill,
+            quantity: updatedProduct.productQuantity,
+          };
+        } else {
+          return product;
         }
-      );
+      });
+      // update parent data component
+      setProductsOneForAll((prevValue) => filteredProductsCopy);
+
       // Assign Current to New Updated Data
-
-      productsCopy.current = filteredProductsCopy;
-
-      // Set data for caching
-      localStorage.setItem(
-        "cachedNewProducts",
-        JSON.stringify(productsCopy.current)
-      );
+      // productsCopy.current = filteredProductsCopy;
+      setProductsCopy((prevValue) => filteredProductsCopy);
     }
     setUpdatedProduct(null);
   }, [updatedProduct]);
 
   // Reassign to either old or new if it changes
   // To copy either of the 2 states and be consistent
-  const newProducts = productsCopy.current;
+  // const newProducts = productsCopy.current;
+  const newProducts = productsCopy;
 
   const toggleRating = (product: ProductProps) => {
     const productRate = product.fill
@@ -96,6 +96,7 @@ const Products = ({ products }: ProductsProps) => {
       });
     }
 
+    // Update Products Module
     setUpdatedProduct({
       productId: updatedProduct.id,
       productRate: updatedProduct.rating.rate,
@@ -104,6 +105,8 @@ const Products = ({ products }: ProductsProps) => {
       productQuantity: updatedProduct.quantity,
     });
   };
+
+  console.log("newProducts ", newProducts);
 
   return newProducts.map((product) => (
     <div

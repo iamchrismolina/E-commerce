@@ -21,6 +21,7 @@ import { PurchaseCountProvider } from "./context/PurchaseCountContext.tsx";
 import { CartProvider } from "./context/CartContext.tsx";
 import { TotalAmountProvider } from "./context/TotalAmountContext.tsx";
 import { WarningProvider } from "./context/WarningContext.tsx";
+import { CachedProductsProvider } from "./context/CachedProductsContext.tsx";
 
 function App() {
   return (
@@ -30,18 +31,20 @@ function App() {
           <PurchaseCountProvider>
             <TotalAmountProvider>
               <CartProvider>
-                <Header />
-                <Cart />
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/men" element={<Men />} />
-                  <Route path="/women" element={<Women />} />
-                  <Route path="/jewelry" element={<Jewelry />} />
-                  <Route path="/electronic" element={<Electronic />} />
-                  <Route path="/help" element={<Help />} />
-                  <Route path="/contact" element={<Contact />} />
-                </Routes>
-                <Footer />
+                <CachedProductsProvider>
+                  <Header />
+                  <Cart />
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/men" element={<Men />} />
+                    <Route path="/women" element={<Women />} />
+                    <Route path="/jewelry" element={<Jewelry />} />
+                    <Route path="/electronic" element={<Electronic />} />
+                    <Route path="/help" element={<Help />} />
+                    <Route path="/contact" element={<Contact />} />
+                  </Routes>
+                  <Footer />
+                </CachedProductsProvider>
               </CartProvider>
             </TotalAmountProvider>
           </PurchaseCountProvider>

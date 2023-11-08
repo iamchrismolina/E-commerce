@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Banner from "../components/Banner.tsx";
 import Categories from "../components/Categories.tsx";
 import All from "../components/All.tsx";
@@ -8,7 +8,14 @@ import Jewelries from "../components/Jewelries.tsx";
 import Electronics from "../components/Electronics.tsx";
 
 const Home = () => {
-  const [contentToLoad, setContentToLoad] = useState("All");
+  const cachedData = localStorage.getItem("cachedContentToLoad");
+  const [contentToLoad, setContentToLoad] = useState(
+    cachedData ? JSON.parse(cachedData) : "All"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cachedContentToLoad", JSON.stringify(contentToLoad));
+  }, [contentToLoad]);
 
   let content;
   switch (contentToLoad) {

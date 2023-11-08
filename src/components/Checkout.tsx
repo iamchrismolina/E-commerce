@@ -19,6 +19,10 @@ const Checkout = () => {
   });
 
   const handleCheckout = () => {
+    if (cart.length <= 0) {
+      // Display Cart Empty Notification
+    }
+
     fetch("http://localhost:5500/create-checkout-session", {
       method: "POST",
       headers: {

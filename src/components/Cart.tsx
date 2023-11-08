@@ -30,13 +30,22 @@ const Cart = () => {
     deductQuantity,
     setUpdatedProduct,
   } = useCart();
-  const { totalAmount, setTotalAmount, addOnTotalAmount, deductOnTotalAmount } =
+  const { setTotalAmount, addOnTotalAmount, deductOnTotalAmount } =
     useTotalAmount();
   const { setPurchaseCount } = usePurchaseCount();
   const { userResponse, displayWarning, setDisplayWarning } = useWarning();
   const [productToDelete, setProductToDelete] = useState<productProps | null>(
     null
   );
+  const [cartTotalAmount, setCartTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const cartTotalPrice = cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+    setCartTotalAmount((prevValue) => Number(cartTotalPrice.toFixed(2)));
+  }, [cart]);
 
   const deleteProduct = (product: productProps) => {
     setCart((prevCart) => {
@@ -151,7 +160,7 @@ const Cart = () => {
         <hr />
         <div className="font-bold text-2xl flex justify-between">
           <span>Total:</span>
-          <span>${totalAmount}</span>
+          <span>${isNaN(cartTotalAmount) ? 0 : cartTotalAmount}</span>
         </div>
         <Checkout />
       </div>

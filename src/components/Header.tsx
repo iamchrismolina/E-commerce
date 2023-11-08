@@ -1,10 +1,15 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { usePurchaseCount } from "../context/PurchaseCountContext.tsx";
 import { useCart } from "../context/CartContext.tsx";
 
 const Header = () => {
-  const { purchaseCount } = usePurchaseCount();
-  const { toggleCart, setToggleCart } = useCart();
+  const [cartCount, setCartCount] = useState(0);
+  const { cart, toggleCart, setToggleCart } = useCart();
+
+  useEffect(() => {
+    const cartLength = cart.reduce((total, item) => total + item.quantity, 0);
+    setCartCount(cartLength);
+  }, [cart]);
 
   return (
     <header className="bg-banner-clr border-b-2 border-black px-2 sticky left-0 top-0 z-10 overflow-hidden w-full">
@@ -60,7 +65,9 @@ const Header = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="purchase">{purchaseCount}</span>
+                <span className="purchase">
+                  {isNaN(cartCount) ? 0 : cartCount}
+                </span>
               </div>
             </li>
           </ul>

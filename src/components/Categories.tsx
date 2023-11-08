@@ -1,4 +1,5 @@
-import { useSearch } from "../context/SearchContext";
+import { useSearch } from "../context/SearchContext.tsx";
+import { useCachedProducts } from "../context/CachedProductsContext.tsx";
 
 type AllProps = {
   activeCategory: string;
@@ -7,6 +8,7 @@ type AllProps = {
 
 const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
   const { setSearch } = useSearch();
+  const { setCachedProductsCategory } = useCachedProducts();
 
   return (
     <main className="m-auto container p-5">
@@ -15,7 +17,10 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
           <ul className="flex gap-8 md:gap-14 lg:gap-20 xl:gap-28">
             <li>
               <span
-                onClick={() => setContentToLoad("All")}
+                onClick={() => {
+                  setContentToLoad("All");
+                  setCachedProductsCategory("All");
+                }}
                 className={`cursor-pointer relative ${
                   activeCategory === "All" ? "activeHighlight" : ""
                 }`}
@@ -25,7 +30,10 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
             </li>
             <li>
               <span
-                onClick={() => setContentToLoad("Mens")}
+                onClick={() => {
+                  setContentToLoad("Mens");
+                  setCachedProductsCategory("Mens");
+                }}
                 className={`cursor-pointer relative ${
                   activeCategory === "Mens" ? "activeHighlight" : ""
                 }`}
@@ -35,7 +43,10 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
             </li>
             <li>
               <span
-                onClick={() => setContentToLoad("Women")}
+                onClick={() => {
+                  setContentToLoad("Women");
+                  setCachedProductsCategory("Women");
+                }}
                 className={`cursor-pointer relative ${
                   activeCategory === "Women" ? "activeHighlight" : ""
                 }`}
@@ -45,7 +56,10 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
             </li>
             <li>
               <span
-                onClick={() => setContentToLoad("Jewelries")}
+                onClick={() => {
+                  setContentToLoad("Jewelries");
+                  setCachedProductsCategory("Jewelries");
+                }}
                 className={`cursor-pointer relative ${
                   activeCategory === "Jewelries" ? "activeHighlight" : ""
                 }`}
@@ -55,7 +69,10 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
             </li>
             <li>
               <span
-                onClick={() => setContentToLoad("Electronics")}
+                onClick={() => {
+                  setContentToLoad("Electronics");
+                  setCachedProductsCategory("Electronics");
+                }}
                 className={`cursor-pointer relative ${
                   activeCategory === "Electronics" ? "activeHighlight" : ""
                 }`}
