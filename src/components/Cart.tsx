@@ -44,7 +44,7 @@ const Cart = () => {
       (total, item) => total + item.price * item.quantity,
       0
     );
-    setCartTotalAmount((prevValue) => Number(cartTotalPrice.toFixed(2)));
+    setCartTotalAmount(() => Number(cartTotalPrice.toFixed(2)));
   }, [cart]);
 
   const deleteProduct = (product: productProps) => {
@@ -58,7 +58,7 @@ const Cart = () => {
 
     setPurchaseCount((prevAmount) => prevAmount - product.quantity);
 
-    setUpdatedProduct((prevValue) => {
+    setUpdatedProduct(() => {
       return {
         productId: product.id,
         productRate: product.rating.rate,

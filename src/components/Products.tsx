@@ -66,7 +66,7 @@ const Products = ({ searchProducts }: ProductsProps) => {
         });
       }
     );
-    setProductsToDisplay((prevValue) => filteredToDisplayProducts);
+    setProductsToDisplay(() => filteredToDisplayProducts);
   }, [searchProducts, userProducts]);
 
   // Monitor Data for Changes
@@ -89,7 +89,7 @@ const Products = ({ searchProducts }: ProductsProps) => {
       });
 
       // Assign New Updated Data to useData
-      setUserProducts((prevValue) => filteredProductsCopy);
+      setUserProducts(() => filteredProductsCopy);
     }
     setUpdatedProduct(null);
   }, [updatedProduct]);

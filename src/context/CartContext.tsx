@@ -97,7 +97,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       });
 
       // To be able to access the latest data as possible
-      setUpdatedProduct((prevProduct) => {
+      setUpdatedProduct(() => {
         return {
           productId: updatedProduct.id,
           productRate: updatedProduct.rating.rate,
@@ -129,7 +129,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         return updatedCart;
       });
 
-      setUpdatedProduct((prevProduct) => ({
+      setUpdatedProduct(() => ({
         productId: updatedProduct.id,
         productRate: updatedProduct.rating.rate,
         productCount: updatedProduct.rating.count,
