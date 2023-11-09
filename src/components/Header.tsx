@@ -16,7 +16,7 @@ const Header = () => {
     <header className="bg-banner-clr border-b-2 border-black px-2 sticky left-0 top-0 z-10  w-full relative">
       <div className="flex items-center xl:pr-0 xl:pl-14 h-24 min-w-max m-auto container">
         <div className="self-center">
-          <img src="/public/images/dk1.jpg" className="w-20 h-18" />
+          <img src="/images/dk1.jpg" className="w-20 h-18" />
           <h1 className="hidden">DK Store</h1>
         </div>
         <nav className="flex w-full items-center xl:pl-14 xl:pr-14 justify-center xl:justify-between ">
