@@ -52,7 +52,7 @@ const Checkout = () => {
   return (
     <div className="text-4xl font-bold text-center mt-2">
       <button className="rounded bg-sky-300 p-2 " onClick={handleCheckout}>
-        Check Out
+        Checkout
       </button>
     </div>
   );
