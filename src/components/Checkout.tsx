@@ -23,7 +23,7 @@ const Checkout = () => {
       // Display Cart Empty Notification
     }
 
-    fetch("http://localhost:5500/create-checkout-session", {
+    fetch("https://ecommerce-server-ruddy.vercel.app/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const Checkout = () => {
   return (
     <div className="text-4xl font-bold text-center mt-2">
       <button className="rounded bg-sky-300 p-2 " onClick={handleCheckout}>
-        Checkout
+        Stripe Check Out
       </button>
     </div>
   );
