@@ -24,7 +24,7 @@ const Checkout = () => {
       alert("Cart is empty");
     }
 
-    const res = fetch("https://ecommerce-server-ruddy.vercel.app/create-checkout-session", {
+    fetch("https://ecommerce-server-ruddy.vercel.app/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const Checkout = () => {
         console.error(err.error);
       });
   };
-  console.log(res);
+
 
   return (
     <div className="text-4xl font-bold text-center mt-2">
