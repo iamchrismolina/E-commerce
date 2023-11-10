@@ -21,9 +21,10 @@ const Checkout = () => {
   const handleCheckout = () => {
     if (cart.length <= 0) {
       // Display Cart Empty Notification
+      alert("Cart is empty");
     }
 
-    fetch("https://ecommerce-server-ruddy.vercel.app/create-checkout-session", {
+    const res = fetch("https://ecommerce-server-ruddy.vercel.app/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,11 +47,12 @@ const Checkout = () => {
         console.error(err.error);
       });
   };
+  console.log(res);
 
   return (
     <div className="text-4xl font-bold text-center mt-2">
       <button className="rounded bg-sky-300 p-2 " onClick={handleCheckout}>
-        Stripe Check Out
+        Check Out
       </button>
     </div>
   );
