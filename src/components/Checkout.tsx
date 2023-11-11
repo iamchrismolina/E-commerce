@@ -20,11 +20,12 @@ const Checkout = () => {
 
   const handleCheckout = () => {
     if (cart.length <= 0) {
-      // Display Cart Empty Notification
-      alert("Cart is empty");
+      alert("Cart is Empty");
+    } else {
+      alert("Stripe Payment Processing");
     }
 
-    fetch("https://ecommerce-server-ruddy.vercel.app/create-checkout-session", {
+    fetch("https://ecommerce-api-red-iota.vercel.app/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
