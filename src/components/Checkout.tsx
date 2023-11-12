@@ -7,7 +7,7 @@ type itemDetails = {
 };
 
 const Checkout = () => {
-  const { cart } = useCart();
+  const { cart, setCart } = useCart();
 
   const itemDetails = useRef<itemDetails[]>([]);
   itemDetails.current = cart.map((item) => {
@@ -43,6 +43,7 @@ const Checkout = () => {
       })
       .then(({ url }) => {
         window.location = url;
+        setCart(() => []);
       })
       .catch((err) => {
         console.error(err.error);
