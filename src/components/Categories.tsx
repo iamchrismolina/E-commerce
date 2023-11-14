@@ -14,7 +14,7 @@ const Main = ({ activeCategory, setContentToLoad }: AllProps) => {
     <main className="m-auto container p-5">
       <div className="flex justify-center items-center flex-col p-5 gap-5">
         <nav>
-          <ul className="flex gap-8 md:gap-14 lg:gap-20 xl:gap-28">
+          <ul className="flex gap-4 sm:gap-8 md:gap-14 lg:gap-20 xl:gap-28">
             <li>
               <span
                 onClick={() => {

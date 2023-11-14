@@ -20,7 +20,7 @@ const Header = () => {
           <h1 className="hidden">DK Store</h1>
         </div>
         <nav className="flex w-full items-center xl:pl-14 xl:pr-14 justify-center xl:justify-between">
-          <ul className="flex gap-2 sm:gap-4 md:gap-6 xl:gap-8 2xl:gap-10">
+          <ul className="flex text-sm sm:text-base gap-2 sm:gap-4 md:gap-6 xl:gap-8 2xl:gap-10">
             <li>
               <Link to={"/"}>Home</Link>
             </li>
@@ -59,7 +59,7 @@ const Header = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-10 h-10 flex self-center m-2 xl:hidden cursor-pointer"
+              className="w-6 h-6 sm:w-10 sm:h-10 flex self-center m-2 xl:hidden cursor-pointer"
             >
               <path
                 strokeLinecap="round"
@@ -70,7 +70,10 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="relative" onClick={() => setToggleCart(!toggleCart)}>
+        <div
+          className="relative mr-4 sm:mr-0"
+          onClick={() => setToggleCart(!toggleCart)}
+        >
           <svg
             width="30px"
             height="30px"

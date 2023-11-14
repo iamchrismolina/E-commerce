@@ -1,6 +1,6 @@
 const ContactSection = () => {
   return (
-    <section className="flex justify-center items-center text-center py-5">
+    <section className="flex justify-center items-center text-center py-5 h-screen sm:h-full">
       <div className="container max-w-prose flex flex-col gap-6">
         <div>
           <img src="./images/pagebanner/contact.jpg" />

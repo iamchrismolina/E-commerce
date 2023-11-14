@@ -1,9 +1,9 @@
 const HelpSection = () => {
   return (
-    <section className="flex items-center justify-center">
-      <div className="container flex items-center justify-center flex-col gap-6">
+    <section className="flex items-center justify-center h-screen sm:h-full">
+      <div className="container flex items-center justify-center flex-col gap-6 px-2 sm:px-0">
         <div className="relative">
-          <h2 className="absolute flex items-center justify-center right-28 w-full h-full text-9xl tracking-widest">
+          <h2 className="hidden sm:flex absolute items-center justify-center right-28 w-full h-full text-9xl tracking-widest">
             HELP!
           </h2>
           <img src="./images/pagebanner/help.jpg" />

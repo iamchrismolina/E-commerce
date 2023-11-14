@@ -89,12 +89,12 @@ const Cart = () => {
     >
       <div className="p-4 font-bold text-4xl flex justify-center items-center gap-4">
         <span className="bg-orange-300 p-2 rounded">Shopping Cart</span>
-        <div className="w-14 h-14">
+        <div className="w-10 h-10 sm:w-14 sm:h-14">
           <img src="./images/shoppingcart.png" className="w-full h-full" />
         </div>
       </div>
       {displayWarning ? <Warning /> : null}
-      <div className="px-6 pt-2 w-full h-3/5 overflow-y-scroll box-content">
+      <div className="px-6 pt-2 w-full h-3/6 sm:h-3/5 overflow-y-scroll box-content">
         <ul className="flex flex-col items-center pr-4 gap-6">
           {cart.length === 0 ? (
             <span className="text-2xl justify-self-center bg-sky-50 p-2 rounded">
