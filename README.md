@@ -7,9 +7,9 @@ DK Superstore is a feature-rich E-commerce platform that provides users with the
 
 ## Key Features
 
-### Product Rating: Share your feedback by rating products based on your satisfaction.
+**Product Rating**: Share your feedback by rating products based on your satisfaction.
 
- **Add to Cart**: Build your shopping cart by easily adding items you love.
+**Add to Cart**: Build your shopping cart by easily adding items you love.
 
 **Remove Items**: Remove unwanted items from your cart effortlessly.
 
